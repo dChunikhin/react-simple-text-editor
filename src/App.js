@@ -1,15 +1,29 @@
 import React, {Component} from 'react';
 import './App.css';
-import ControlPanel from "./control-panel/ControlPanel";
-import FileZone from "./file-zone/FileZone";
-import getMockText from './text.service';
+import ControlPanel from "./components/control-panel/ControlPanel";
+import FileZone from "./components/file-zone/FileZone";
+
+import TextService from "./services/text.service";
 
 class App extends Component {
-    getText() {
-        getMockText().then(function (result) {
-            console.log(result);
-        });
+
+    constructor(props) {
+        super(props);
+        this.changeContent = this.changeContent.bind(this);
+        this.state = {
+            content: ''
+        };
     }
+
+    async componentDidMount() {
+        let content = await TextService.getMockText();
+        this.setState({ content });
+    }
+
+    changeContent(content) {
+        this.setState({ content })
+    }
+
     render() {
         return (
             <div className="App">
@@ -17,8 +31,8 @@ class App extends Component {
                     <span>Simple Text Editor</span>
                 </header>
                 <main>
-                    <ControlPanel/>
-                    <FileZone/>
+                    <ControlPanel />
+                    <FileZone onContentChange={this.changeContent} content={this.state.content} />
                 </main>
             </div>
         );

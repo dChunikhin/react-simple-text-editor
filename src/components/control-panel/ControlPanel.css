@@ -1,0 +1,6 @@
+#control-panel {
+    background-color: #fff;
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+}
